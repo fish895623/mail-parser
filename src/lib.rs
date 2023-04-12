@@ -97,7 +97,7 @@
 //! - TIS-620
 //!
 //! Supported character sets via the optional dependency [encoding_rs](https://crates.io/crates/encoding_rs):
-//!   
+//!
 //! - SHIFT_JIS
 //! - BIG5
 //! - EUC-JP
@@ -164,7 +164,7 @@
 //!            "art@vandelay.com"
 //!        ))
 //!    );
-//!    
+//!
 //!    assert_eq!(
 //!        message.to(),
 //!        &HeaderValue::GroupList(vec![
@@ -753,6 +753,13 @@ impl<'x> Default for HeaderValue<'x> {
 impl<'x> HeaderValue<'x> {
     pub fn is_empty(&self) -> bool {
         *self == HeaderValue::Empty
+    }
+
+    pub fn unwrap_address(self) -> Addr<'x> {
+        match self {
+            HeaderValue::Address(a) => a,
+            _ => panic!("HeaderValue::unwrap_address called on non-Address value"),
+        }
     }
 
     pub fn unwrap_text(self) -> Cow<'x, str> {
